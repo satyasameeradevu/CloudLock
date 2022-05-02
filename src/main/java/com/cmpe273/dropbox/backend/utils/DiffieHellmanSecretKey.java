@@ -44,17 +44,16 @@ public class DiffieHellmanSecretKey {
         // Gets the public key of Alice(g^X mod p) and Bob (g^Y mod p)
         PublicKey pbk1 = kp1.getPublic();
         PublicKey pbk2 = kp2.getPublic();
-        // Gets the private key of Alice X and Bob Y
+        
         PrivateKey prk1 = kp1.getPrivate();
         PrivateKey prk2 = kp2.getPrivate();
         try {
-            // Computes secret keys for Alice (g^Y mod p)^X mod p == Bob (g^X
-            // mod p)^Y mod p
+            
             SecretKey key1 = dfsk.agreeSecretKey(prk1, pbk2,
                     true);
             SecretKey key2 = dfsk.agreeSecretKey(prk2, pbk1,
                     true);
-            // Instantiate the Cipher of algorithm "DES"
+           
             Cipher c = Cipher.getInstance("AES/ECB/PKCS5Padding");
             // Init the cipher with Alice's key1
             c.init(Cipher.ENCRYPT_MODE, key1);
@@ -111,7 +110,7 @@ public class DiffieHellmanSecretKey {
     }
     
     public byte[] getDiffieHellmanSecretKeyToDecrypt(byte[] ciphertext, SecretKey key2) {
-        // Instantiate the Cipher of algorithm "DES"
+      
         Cipher c;
 		
         
