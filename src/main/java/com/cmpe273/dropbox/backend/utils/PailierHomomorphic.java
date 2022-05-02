@@ -12,7 +12,7 @@ import java.io.*;
 
 public class PailierHomomorphic {
 	private static final Charset UTF_8 = StandardCharsets.UTF_8;
-	//*******************************paillier encryption******************************
+
 	private BigInteger p, q, lambda;
 	/**
 	* n = p*q, where p and q are two large primes.
@@ -31,11 +31,7 @@ public class PailierHomomorphic {
 	*/
 	private int bitLength;
 
-	/**
-	* Constructs an instance of the Paillier cryptosystem.
-	* @param bitLengthVal number of bits of modulus
-	* @param certainty The probability that the new BigInteger represents a prime number will exceed (1 - 2^(-certainty)). The execution time of this constructor is proportional to the value of this parameter.
-	*/
+	
 	public PailierHomomorphic(int bitLengthVal, int certainty) {
 	KeyGeneration(bitLengthVal, certainty);
 	}
@@ -47,16 +43,10 @@ public class PailierHomomorphic {
 	KeyGeneration(512, 64);
 	}
 
-	/**
-	* Sets up the public key and private key.
-	* @param bitLengthVal number of bits of modulus.
-	* @param certainty The probability that the new BigInteger represents a prime number will exceed (1 - 2^(-certainty)). The execution time of this constructor is proportional to the value of this parameter.
-	*/
+	
 	public void KeyGeneration(int bitLengthVal, int certainty) {
 	bitLength = bitLengthVal;
-	/*Constructs two randomly generated positive BigIntegers that are probably prime, with the specified bitLength and certainty.*/
-	//Random rp = new Random(); 
-	//Random rq = new Random();
+	
 	p = new BigInteger(bitLength / 2, certainty, new Random());
 	q = new BigInteger(bitLength / 2, certainty, new Random());
 
@@ -73,59 +63,35 @@ public class PailierHomomorphic {
 	}
 	}
 
-	/**
-	* Encrypts plaintext m. ciphertext c = g^m * r^n mod n^2. This function explicitly requires random input r to help with encryption.
-	* @param m plaintext as a BigInteger
-	* @param r random plaintext to help with encryption
-	* @return ciphertext as a BigInteger
-	*/
 	public BigInteger Encryption(BigInteger m, BigInteger r) {
 	return g.modPow(m, nsquare).multiply(r.modPow(n, nsquare)).mod(nsquare);
 	}
 
-	/**
-	* Encrypts plaintext m. ciphertext c = g^m * r^n mod n^2. This function automatically generates random input r (to help with encryption).
-	* @param m plaintext as a BigInteger
-	* @return ciphertext as a BigInteger
-	*/
+	
 	public BigInteger Encryption(BigInteger m) {
 	BigInteger r = new BigInteger(bitLength, new Random());
 	return g.modPow(m, nsquare).multiply(r.modPow(n, nsquare)).mod(nsquare);
 
 	}
 
-	/**
-	* Decrypts ciphertext c. plaintext m = L(c^lambda mod n^2) * u mod n, where u = (L(g^lambda mod n^2))^(-1) mod n.
-	* @param c ciphertext as a BigInteger
-	* @return plaintext as a BigInteger
-	*/
+	
 	public BigInteger Decryption(BigInteger c) {
 	BigInteger u = g.modPow(lambda, nsquare).subtract(BigInteger.ONE).divide(n).modInverse(n);
 	return c.modPow(lambda, nsquare).subtract(BigInteger.ONE).divide(n).multiply(u).mod(n);
 	}
 	
 	
-	//public BigInteger Decryption(BigInteger c,BigInteger lambda, BigInteger nsquare, BigInteger g, BigInteger n) {
-	//	BigInteger u = g.modPow(lambda, nsquare).subtract(BigInteger.ONE).divide(n).modInverse(n);
-	//	return c.modPow(lambda, nsquare).subtract(BigInteger.ONE).divide(n).multiply(u).mod(n);
-	//	}
+	
 
 
-	//********************************file part main************************
+	
 	  public static void main(String[] args) throws IOException {
 		Random rp = new Random(); 
 			Random rq = new Random();
-	    //******************paillier***************
+	   
 		  PailierHomomorphic paillier = new PailierHomomorphic();
 
-	    //System.out.println(" p "+paillier.p);
-	    //System.out.println(" q "+paillier.q);
-	    //System.out.println(" lambda "+paillier.lambda);
-	    //System.out.println("n "+paillier.n);
-	    //System.out.println("nsquare "+paillier.nsquare);
-	    //System.out.println("g "+paillier.g);
-	    //System.out.println("bitLength "+paillier.bitLength);
-	    //********************file part**************
+	    
 	    File file = new File("/Users/subashkumarsaladi/Downloads/sam1.txt");
 	    InputStream in = new FileInputStream(new File("/Users/subashkumarsaladi/Downloads/sam1.txt"));
 	    if (!file.exists()) {
@@ -168,13 +134,13 @@ public class PailierHomomorphic {
 		 */
 		
 		newFile.setP(p.toString());
-		 //System.out.println("encrypt p "+paillier.p); 
+		 
 		newFile.setQ(q.toString());
-		 //System.out.println("encrypt q "+paillier.q);
+		 
 		 newFile.setLambda(lambda.toString());
-		 //System.out.println("encrypt lambda "+paillier.lambda);
+		 
 		 newFile.setN(n.toString()); 
-		 //System.out.println("encrypt n "+paillier.n);
+		 
 		 newFile.setNsquare(nsquare.toString());
 		 //System.out.println("encrypt nsquare "+paillier.nsquare);
 		 newFile.setG(g.toString()); System.out.println("encrypt g "+paillier.g);
@@ -219,7 +185,7 @@ public class PailierHomomorphic {
 		 * byte[] original = new byte[128];
 		 * 
 		 * //FileOutputStream out = new
-		 * FileOutputStream("/Users/subashkumarsaladi/Desktop/HomomorphicDecrypted.txt")
+		
 		 * ;
 		 * 
 		 * //File files= new
@@ -300,9 +266,7 @@ public BigInteger encryptSearchWord(PailierHomomorphic paillier, String plainTex
 				  //System.out.println("decrypt bitLength "+paillier.bitLength);
 		
 	    
-	    	//System.out.println("plainTextInputStream "+plainTextInputStream.available());
-	      
-	        //char plainText = (char) plainText.read();
+	    	
 				  BigInteger returnedValue;
 	        
 
